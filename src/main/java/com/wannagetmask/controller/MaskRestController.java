@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
 @RequiredArgsConstructor
 public class MaskRestController {
@@ -30,15 +30,28 @@ public class MaskRestController {
     @GetMapping("/intoMarket/{url}")
         public ResponseEntity<List<Option>> intoMarket(@PathVariable String url) {
         String rink = URLDecoder.decode(url);
-        Select select = seleniumUtil.intoNaverShopping(rink);
-        List<Option> result = select.getOptions().stream().map(option->Option.builder().id(option.getAttribute("value")).text(option.getText()).build()).collect(Collectors.toList());
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        List<Option> options = null;
+        HttpStatus status = HttpStatus.OK;
+        try{
+            Select select = seleniumUtil.intoNaverShopping(rink);
+            options = select.getOptions().stream().map(option->Option.builder().id(option.getAttribute("value")).text(option.getText()).build()).collect(Collectors.toList());
+        } catch (Exception e) {
+            status = HttpStatus.RESET_CONTENT;
+        }
+        return new ResponseEntity<>(options, status);
     }
 
     @PostMapping("/registerMarket")
-    public ResponseEntity<String> registerMarket(@RequestBody Market market) {
+    public ResponseEntity<Boolean> registerMarket(@RequestBody Market market) {
+        Boolean result = true;
+        //DB에 넣을 것
+        try{
 
-        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+        } catch (Exception e) {
+        //이미 등록되었을 시(PK 중복 시)
+            result = false;
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/registerAccount")
