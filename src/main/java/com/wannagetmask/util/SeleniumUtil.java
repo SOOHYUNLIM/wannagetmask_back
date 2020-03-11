@@ -1,9 +1,15 @@
 package com.wannagetmask.util;
 
+import com.wannagetmask.domain.Option;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Select;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.openqa.selenium.WebDriver.*;
 
@@ -41,12 +47,17 @@ public class SeleniumUtil {
         webDriver.get(targetURL);
     }
 
-    public void loginNaver(String id, String pw) throws InterruptedException {
+    public boolean loginNaver(String id, String pw) {
         webDriver.get("https://nid.naver.com/nidlogin.login");
         javascriptExecutor.executeScript("document.getElementsByName('id')[0].value='" + id + "'");
         javascriptExecutor.executeScript("document.getElementsByName('pw')[0].value='" + pw + "'");
         webDriver.findElement(By.id("log.login")).click();
-        Thread.sleep(1000);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return webDriver.getCurrentUrl().equals("https://www.naver.com/") ? true : false;
     }
 
     public boolean checkStock(String url) {
@@ -79,8 +90,13 @@ public class SeleniumUtil {
         javascriptExecutor.executeScript("document.getElementsByClassName('txt_order')[0].click()");
     }
 
-    public Select intoNaverShopping(String url) {
+    public Map<String, List<Option>> intoNaverShopping(String url) {
         crawl(url);
-        return new Select(webDriver.findElement(By.xpath("//*[@id=\"wrap\"]/div/div[2]/div[2]/form/fieldset/div[4]/div[1]/ul/li/ul/li/div/select")));
+        String title = webDriver.findElement(By.xpath("/html/head/meta[13]")).getAttribute("content");
+        List<Option> options = new Select(webDriver.findElement(By.xpath("//*[@id=\"wrap\"]/div/div[2]/div[2]/form/fieldset/div[4]/div[1]/ul/li/ul/li/div/select")))
+                .getOptions().stream().map(option->Option.builder().id(option.getAttribute("value")).text(option.getText()).build()).collect(Collectors.toList());
+        Map<String, List<Option>> result = new HashMap<>();
+        result.put(title, options);
+        return result;
     }
 }

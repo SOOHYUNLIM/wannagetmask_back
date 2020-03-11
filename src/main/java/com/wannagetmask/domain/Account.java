@@ -6,7 +6,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Builder
 @Document(collection = "accounts")
 public class Account {
 
@@ -17,5 +16,9 @@ public class Account {
 
     private String domain;
 
-    private Boolean isMind;
+    private Boolean onOff;
+
+    public Account() {
+        this.onOff = true;
+    }
 }

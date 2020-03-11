@@ -20,7 +20,5 @@ public class AccountRepositoryTests {
 
     @Test
     public void insertTest() {
-        Account account = Account.builder().id("test3").pw("ccc123").domain("naver").isMind(true).build();
-        accountRepository.insert(account);
     }
 }
