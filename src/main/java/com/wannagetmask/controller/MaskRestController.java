@@ -8,6 +8,9 @@ import com.wannagetmask.repository.MarketRepository;
 import com.wannagetmask.util.CustomMessage;
 import com.wannagetmask.util.JsoupUtil;
 import com.wannagetmask.util.SeleniumUtil;
+import static com.wannagetmask.util.TargetUtil.*;
+
+import com.wannagetmask.util.TargetUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebElement;
@@ -33,6 +36,7 @@ public class MaskRestController {
     private final AccountRepository accountRepository;
     private final MarketRepository marketRepository;
 
+    // 옵션 반환
     @GetMapping("/intoMarket/{url}")
         public ResponseEntity<Map<String, List<Option>>> intoMarket(@PathVariable String url) {
         String rink = URLDecoder.decode(url);
@@ -77,4 +81,18 @@ public class MaskRestController {
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @PostMapping("/registerTargetCrawled")
+    public ResponseEntity<String> registerTargetCrawled(@RequestBody String prodPage) {
+
+
+        return new ResponseEntity<>("Success", HttpStatus.OK);
+    }
+
+
+
+
+
+
+
 }
