@@ -3,6 +3,8 @@ package com.wannagetmask.controller;
 import com.wannagetmask.domain.Account;
 import com.wannagetmask.domain.Market;
 import com.wannagetmask.domain.Option;
+import com.wannagetmask.domain.TargetCrawled;
+import com.wannagetmask.repository.TargetCrawledRepository;
 import com.wannagetmask.repository.AccountRepository;
 import com.wannagetmask.repository.MarketRepository;
 import com.wannagetmask.util.CustomMessage;
@@ -13,6 +15,8 @@ import static com.wannagetmask.util.TargetUtil.*;
 import com.wannagetmask.util.TargetUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.support.ui.Select;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.openqa.selenium.WebElement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.openqa.selenium.support.ui.Select;
 
+import java.net.URL;
 import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +40,7 @@ public class MaskRestController {
     private final SeleniumUtil seleniumUtil = SeleniumUtil.getChrome();
     private final AccountRepository accountRepository;
     private final MarketRepository marketRepository;
+    private final TargetCrawledRepository tcRepo;
 
     // 옵션 반환
     @GetMapping("/intoMarket/{url}")
@@ -83,10 +89,23 @@ public class MaskRestController {
     }
 
     @PostMapping("/registerTargetCrawled")
-    public ResponseEntity<String> registerTargetCrawled(@RequestBody String prodPage) {
+    public ResponseEntity<Boolean> registerTargetCrawled(@RequestBody String url) {
 
+        String pageUrl = URLDecoder.decode(url);
+        TargetUtil tu = new TargetUtil(pageUrl);
+        List<TargetCrawled> vaildTargets = tu.getVaildTargetUrls();
+        tcRepo.insert(vaildTargets);
+        System.out.println("안녕!");
 
-        return new ResponseEntity<>("Success", HttpStatus.OK);
+        // 오류나면 false하기
+        Boolean result = true;
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/getTargetList")
+    public ResponseEntity<List<TargetCrawled>> targetListUp() {
+        return new ResponseEntity<>(tcRepo.findAll(),HttpStatus.OK);
     }
 
 
