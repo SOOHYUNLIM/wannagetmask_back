@@ -3,6 +3,8 @@ package com.wannagetmask.controller;
 import com.wannagetmask.domain.Account;
 import com.wannagetmask.domain.Market;
 import com.wannagetmask.domain.Option;
+import com.wannagetmask.domain.TargetCrawled;
+import com.wannagetmask.repository.TargetCrawledRepository;
 import com.wannagetmask.util.SeleniumUtil;
 import static com.wannagetmask.util.TargetUtil.*;
 
@@ -10,10 +12,12 @@ import com.wannagetmask.util.TargetUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.support.ui.Select;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URL;
 import java.net.URLDecoder;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +29,7 @@ import java.util.stream.Collectors;
 public class MaskRestController {
 
     private final SeleniumUtil seleniumUtil = SeleniumUtil.getChrome();
+    private final TargetCrawledRepository tcRepo;
 
     // 옵션 반환
     @GetMapping("/intoMarket/{url}")
@@ -61,10 +66,23 @@ public class MaskRestController {
     }
 
     @PostMapping("/registerTargetCrawled")
-    public ResponseEntity<String> registerTargetCrawled(@RequestBody String prodPage) {
+    public ResponseEntity<Boolean> registerTargetCrawled(@RequestBody String url) {
 
+        String pageUrl = URLDecoder.decode(url);
+        TargetUtil tu = new TargetUtil(pageUrl);
+        List<TargetCrawled> vaildTargets = tu.getVaildTargetUrls();
+        tcRepo.insert(vaildTargets);
+        System.out.println("안녕!");
 
-        return new ResponseEntity<>("Success", HttpStatus.OK);
+        // 오류나면 false하기
+        Boolean result = true;
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/getTargetList")
+    public ResponseEntity<List<TargetCrawled>> targetListUp() {
+        return new ResponseEntity<>(tcRepo.findAll(),HttpStatus.OK);
     }
 
 
