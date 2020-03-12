@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class TargetCrawled {
+public class Target {
 
-    String prodCode;
-    String prodName;
     String url;
+    String domain;
+    String listTag;
+    String soldoutTag;
 
 }
