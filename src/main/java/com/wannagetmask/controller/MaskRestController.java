@@ -1,30 +1,27 @@
 package com.wannagetmask.controller;
 
+import com.wannagetmask.config.BeanConfig;
 import com.wannagetmask.domain.Account;
 import com.wannagetmask.domain.Market;
 import com.wannagetmask.domain.Option;
-import com.wannagetmask.domain.TargetCrawled;
+import com.wannagetmask.domain.Target;
 import com.wannagetmask.repository.TargetCrawledRepository;
 import com.wannagetmask.repository.AccountRepository;
 import com.wannagetmask.repository.MarketRepository;
 import com.wannagetmask.util.CustomMessage;
-import com.wannagetmask.util.JsoupUtil;
 import com.wannagetmask.util.SeleniumUtil;
-import static com.wannagetmask.util.TargetUtil.*;
 
-import com.wannagetmask.util.TargetUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.openqa.selenium.WebElement;
 import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.openqa.selenium.support.ui.Select;
 
 import java.lang.annotation.Target;
 import java.net.URL;
@@ -32,7 +29,6 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @CrossOrigin("*")
@@ -43,20 +39,25 @@ public class MaskRestController {
     private final SeleniumUtil seleniumUtil = SeleniumUtil.getChrome();
     private final AccountRepository accountRepository;
     private final MarketRepository marketRepository;
-    private final TargetCrawledRepository tcRepo;
+    private final TargetCrawledRepository targetRepository;
 
-    // 옵션 반환
-    @GetMapping("/intoMarket/{url}")
+
+    @Qualifier("targetList")
+    @Autowired
+    private ArrayList<Target> targetList;
+
+        // 옵션 반환
+        @GetMapping("/intoMarket/{url}")
         public ResponseEntity<Map<String, List<Option>>> intoMarket(@PathVariable String url) {
-        String rink = URLDecoder.decode(url);
-        Map<String, List<Option>> result = null;
-        HttpStatus status = HttpStatus.OK;
-        try{
-            result = seleniumUtil.intoNaverShopping(rink);
-        } catch (Exception e) {
-            status = HttpStatus.RESET_CONTENT;
-        }
-        return new ResponseEntity<>(result, status);
+            String rink = URLDecoder.decode(url);
+            Map<String, List<Option>> result = null;
+            HttpStatus status = HttpStatus.OK;
+            try{
+                result = seleniumUtil.intoNaverShopping(rink);
+            } catch (Exception e) {
+                status = HttpStatus.RESET_CONTENT;
+            }
+            return new ResponseEntity<>(result, status);
     }
 
     @PostMapping("/registerMarket")
@@ -92,28 +93,21 @@ public class MaskRestController {
     }
 
     @PostMapping("/registerTargetCrawled")
-    public ResponseEntity<Boolean> registerTargetCrawled(@RequestBody String url) {
+    public ResponseEntity<Boolean> registerTargetCrawled(@RequestBody Target target) {
 
-        String pageUrl = URLDecoder.decode(url);
-        TargetUtil tu = new TargetUtil(pageUrl);
-        List<TargetCrawled> vaildTargets = tu.getVaildTargetUrls();
-        tcRepo.insert(vaildTargets);
-        System.out.println("안녕!");
+        targetRepository.insert(target);
+        // 리스트에 넣고
+        targetList.add(target);
 
-        // 오류나면 false하기
+        // 요고체크
         Boolean result = true;
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/getTargetList")
-    public ResponseEntity<List<TargetCrawled>> targetListUp() {
-        return new ResponseEntity<>(tcRepo.findAll(),HttpStatus.OK);
+    public ResponseEntity<List<Target>> targetListUp() {
+        return new ResponseEntity<>(targetRepository.findAll(),HttpStatus.OK);
     }
-
-
-
-
 
 
 
