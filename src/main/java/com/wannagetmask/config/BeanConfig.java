@@ -1,20 +1,24 @@
 package com.wannagetmask.config;
 
 import com.wannagetmask.domain.Target;
-import org.springframework.beans.factory.annotation.Configurable;
+import com.wannagetmask.repository.TargetRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 public class BeanConfig {
+
+    private final TargetRepository targetRepository;
 
     @Qualifier("targetList")
     @Bean
-    public ArrayList<Target> targetList(){
-        return new ArrayList<Target>();
+    public List<Target> targetList(){
+        return targetRepository.findAll();
     }
 
 }

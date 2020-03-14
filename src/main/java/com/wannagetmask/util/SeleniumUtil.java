@@ -99,4 +99,46 @@ public class SeleniumUtil {
         result.put(title, options);
         return result;
     }
+
+
+    public void loginKakaoAdmin(String id, String pw) {
+        webDriver.get("https://accounts.kakao.com/login/kakaoforbusiness?continue=https://center-pf.kakao.com/_HFxonxb/messages/new");
+        javascriptExecutor.executeScript("document.getElementsByName('email')[0].value='" + id + "'");
+        javascriptExecutor.executeScript("document.getElementsByName('password')[0].value='" + pw + "'");
+        webDriver.findElement(By.xpath("//*[@id=\"login-form\"]/fieldset/div[8]/button")).click();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMessage(String domain, String url) {
+        Navigation navigation = webDriver.navigate();
+        navigation.to("https://center-pf.kakao.com/_HFxonxb/messages/new/feed");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        javascriptExecutor.executeScript("document.getElementById('fieldRadio3Foritems[0].link.type').click()");
+        javascriptExecutor.executeScript("document.getElementById('fieldRadio0Forshareable').click()");
+        webDriver.findElement(By.id("messageWrite")).sendKeys(domain + " 입고!");
+        webDriver.findElement(By.id("btnName")).sendKeys("구매하기");
+        webDriver.findElement(By.id("linkUpload")).sendKeys(url);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        javascriptExecutor.executeScript("document.getElementsByClassName('btn_g2')[0].click()");
+        webDriver.findElement(By.xpath("//*[@id=\"mArticle\"]/div/form/div[2]/button[3]")).click();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        webDriver.findElement(By.id("phoneNumber")).sendKeys("01027680222");
+        webDriver.findElement(By.xpath("/html/body/div[3]/div[2]/div/div[1]/div[1]/button")).click();
+    }
 }

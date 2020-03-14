@@ -1,21 +1,18 @@
 package com.wannagetmask.controller;
 
-import com.wannagetmask.config.BeanConfig;
 import com.wannagetmask.domain.Account;
 import com.wannagetmask.domain.Market;
 import com.wannagetmask.domain.Option;
 import com.wannagetmask.domain.Target;
-import com.wannagetmask.repository.TargetCrawledRepository;
 import com.wannagetmask.repository.AccountRepository;
 import com.wannagetmask.repository.MarketRepository;
+import com.wannagetmask.repository.TargetRepository;
 import com.wannagetmask.util.CustomMessage;
 import com.wannagetmask.util.SeleniumUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.openqa.selenium.WebElement;
-import org.springframework.context.annotation.Bean;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,8 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.annotation.Target;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +34,12 @@ public class MaskRestController {
     private final SeleniumUtil seleniumUtil = SeleniumUtil.getChrome();
     private final AccountRepository accountRepository;
     private final MarketRepository marketRepository;
-    private final TargetCrawledRepository targetRepository;
+    private final TargetRepository targetRepository;
 
 
     @Qualifier("targetList")
     @Autowired
-    private ArrayList<Target> targetList;
+    private List<Target> targetList;
 
         // 옵션 반환
         @GetMapping("/intoMarket/{url}")
