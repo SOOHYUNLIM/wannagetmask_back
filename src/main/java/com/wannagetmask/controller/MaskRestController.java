@@ -1,16 +1,14 @@
 package com.wannagetmask.controller;
 
-import com.wannagetmask.config.BeanConfig;
 import com.wannagetmask.domain.Account;
 import com.wannagetmask.domain.Market;
 import com.wannagetmask.domain.Option;
 import com.wannagetmask.domain.Target;
-import com.wannagetmask.repository.TargetCrawledRepository;
 import com.wannagetmask.repository.AccountRepository;
 import com.wannagetmask.repository.MarketRepository;
+import com.wannagetmask.repository.TargetRepository;
 import com.wannagetmask.util.CustomMessage;
 import com.wannagetmask.util.SeleniumUtil;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,7 @@ public class MaskRestController {
     private final SeleniumUtil seleniumUtil = SeleniumUtil.getChrome();
     private final AccountRepository accountRepository;
     private final MarketRepository marketRepository;
-    private final TargetCrawledRepository targetRepository;
+    private final TargetRepository targetRepository;
 
 
     @Qualifier("targetList")
@@ -89,15 +87,13 @@ public class MaskRestController {
     }
 
     @PostMapping("/registerTargetCrawled")
-    public ResponseEntity<Boolean> registerTargetCrawled(@RequestBody Target target) {
+    public ResponseEntity<String> registerTargetCrawled(@RequestBody Target target) {
 
         targetRepository.insert(target);
         // 리스트에 넣고
         targetList.add(target);
 
-        // 요고체크
-        Boolean result = true;
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
     @GetMapping("/getTargetList")

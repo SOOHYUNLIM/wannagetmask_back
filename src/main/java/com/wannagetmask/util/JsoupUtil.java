@@ -9,13 +9,15 @@ import java.io.IOException;
 
 public class JsoupUtil {
 
-    public boolean checkStock(Target target) throws IOException {
+    public boolean checkStock(Target target) throws IOException{
 
         Document rawData = Jsoup.connect(target.getUrl()).userAgent("Opera").get();
         int allProductCnt = rawData.getElementsByClass(target.getListTag()).size();
         int soldoutProductCnt = rawData.getElementsByClass(target.getSoldoutTag()).size();
         return allProductCnt == soldoutProductCnt ? false : true;
-        
+
     }
+
+
 
 }
