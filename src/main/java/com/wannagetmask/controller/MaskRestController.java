@@ -38,7 +38,7 @@ public class MaskRestController {
 
     @Qualifier("targetList")
     @Autowired
-    private ArrayList<Target> targetList;
+    private List<Target> targetList;
 
         // 옵션 반환
         @GetMapping("/intoMarket/{url}")

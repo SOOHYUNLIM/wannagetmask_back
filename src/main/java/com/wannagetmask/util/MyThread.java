@@ -1,22 +1,18 @@
 package com.wannagetmask.util;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@Component
 public class MyThread {
 
     private final ExecutorService threadPool;
 
-    private MyThread() {
-        this.threadPool = Executors.newFixedThreadPool(5);
-    }
-
-    private static class LazyHolder {
-        private static final MyThread INSTANCE = new MyThread();
-    }
-
-    public static MyThread getInstance() {
-        return LazyHolder.INSTANCE;
+    public MyThread() {
+        this.threadPool = Executors.newFixedThreadPool(10);
     }
 
     public void run(Runnable task) {
