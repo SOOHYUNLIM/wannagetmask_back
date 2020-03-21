@@ -15,12 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -96,11 +96,10 @@ public class MaskRestController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @GetMapping("/getTargetList")
-    public ResponseEntity<List<Target>> targetListUp() {
-        return new ResponseEntity<>(targetRepository.findAll(),HttpStatus.OK);
+    @GetMapping("/getTargetList/{pno}")
+    public ResponseEntity<Page<Target>> targetListUp(@PathVariable Integer pno) {
+        PageRequest page = PageRequest.of(pno-1,10);
+        return new ResponseEntity<>(targetRepository.findAll(page),HttpStatus.OK);
     }
-
-
 
 }
