@@ -1,0 +1,19 @@
+[33m169a029[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m HEAD@{0}: reset: moving to HEAD@{10}
+[33m294ccf0[m HEAD@{1}: reset: moving to HEAD@{13}
+[33md5ce30a[m HEAD@{2}: reset: moving to HEAD^
+[33m169a029[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m HEAD@{3}: reset: moving to HEAD
+[33m169a029[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m HEAD@{4}: reset: moving to HEAD
+[33m169a029[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m HEAD@{5}: reset: moving to 169a02929e3dba2cd0e4c8f4519dd8f97ccf95d7
+[33m169a029[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m HEAD@{6}: reset: moving to 169a02929e3dba2cd0e4c8f4519dd8f97ccf95d7
+[33m169a029[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m HEAD@{7}: reset: moving to HEAD
+[33m169a029[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m HEAD@{8}: reset: moving to HEAD
+[33m169a029[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m HEAD@{9}: reset: moving to HEAD
+[33m169a029[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m HEAD@{10}: reset: moving to HEAD
+[33m169a029[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m HEAD@{11}: commit (merge): Merge branch 'master' of https://github.com/SOOHYUNLIM/wannagetmask_back
+[33md5ce30a[m HEAD@{12}: commit: commit for pull
+[33m15a4ca3[m HEAD@{13}: commit: targetList Bean생성
+[33m261838b[m HEAD@{14}: pull --progress --no-stat -v --progress origin master: Fast-forward
+[33m294ccf0[m HEAD@{15}: commit: Target크롤링 페이지 register & get메서드
+[33ma9c6016[m HEAD@{16}: merge origin/master: Merge made by the 'recursive' strategy.
+[33m58f816d[m HEAD@{17}: commit: 알람 타겟 domain,util클래스 생성
+[33m7c081b2[m HEAD@{18}: clone: from https://github.com/SOOHYUNLIM/wannagetmask_back

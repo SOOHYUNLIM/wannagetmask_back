@@ -9,19 +9,18 @@ import com.wannagetmask.repository.MarketRepository;
 import com.wannagetmask.repository.TargetRepository;
 import com.wannagetmask.util.CustomMessage;
 import com.wannagetmask.util.SeleniumUtil;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -106,21 +105,19 @@ public class MaskRestController {
     }
 
     @PostMapping("/registerTargetCrawled")
-    public ResponseEntity<Boolean> registerTargetCrawled(@RequestBody Target target) {
+    public ResponseEntity<String> registerTargetCrawled(@RequestBody Target target) {
 
         targetRepository.insert(target);
         // 리스트에 넣고
         targetList.add(target);
 
-        // 요고체크
-        Boolean result = true;
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @GetMapping("/getTargetList")
-    public ResponseEntity<List<Target>> targetListUp() {
-        return new ResponseEntity<>(targetRepository.findAll(), HttpStatus.OK);
+    @GetMapping("/getTargetList/{pno}")
+    public ResponseEntity<Page<Target>> targetListUp(@PathVariable Integer pno) {
+        PageRequest page = PageRequest.of(pno-1,10);
+        return new ResponseEntity<>(targetRepository.findAll(page),HttpStatus.OK);
     }
-
 
 }
