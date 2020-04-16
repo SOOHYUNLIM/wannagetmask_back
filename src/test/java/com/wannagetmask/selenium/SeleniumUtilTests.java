@@ -12,7 +12,7 @@ public class SeleniumUtilTests {
 //
 //    @Test
 //    public void loginAndCheckStockTest() throws InterruptedException {
-//        seleniumUtil.loginNaver("the__dreamer", "c1y2s3r4%");
+//        seleniumUtil.loginNaver("", "c");
 ////TEST
 //// boolean stock = seleniumUtil.checkStock("https://smartstore.naver.com/j-encompany/products/4823935441?NaPm=ct%3Dk7o0l3nc%7Cci%3D356c897d91242794f9aa595bce23aa4a9d0b7513%7Ctr%3Dsls%7Csn%3D1048465%7Chk%3Da6b49ec90b2eff3dfbfce848e69656bb5decb85d");
 //
@@ -39,7 +39,7 @@ public class SeleniumUtilTests {
 //
 //    @Test
 //    public void coupangTest() throws InterruptedException{
-//        seleniumUtil.loginCoupang("tngus1337@naver.com","tngus645312");
+//        seleniumUtil.loginCoupang("","");
 //        // seleniumUtil.buyCoupang("https://www.coupang.com/vp/products/306582919?itemId=966600807&vendorItemId=5372532175&sourceType=CAMPAIGN&campaignId=82&categoryId=115574&isAddedCart=");
 //        seleniumUtil.buyCoupang("https://www.coupang.com/vp/products/247664604?itemId=784192551&vendorItemId=4986418455&sourceType=CAMPAIGN&campaignId=82&categoryId=115574&isAddedCart=");
 //    }
